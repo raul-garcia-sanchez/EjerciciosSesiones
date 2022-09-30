@@ -45,7 +45,6 @@
             echo "<p> Numero endevinat!!!!</a><br><br>";
             echo "<a href='endevina.php'>Torna a jugar</a>";
         }
-        echo $_SESSION['ocult'];
     }
     ?>
 
