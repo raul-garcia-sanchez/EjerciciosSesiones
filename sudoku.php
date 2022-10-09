@@ -11,24 +11,42 @@
 <table border="1">
     <form action="" method="POST">
         <?php
-
+            if(!$_POST){
+                $numsSudoku = numerosSudoku();
+            }
+            echo "<tr></tr>";
             for($fila=1;$fila<=9;$fila++){
                 echo "<tr>\n";
                 for($columna=1;$columna<=9;$columna++){
+                    $numCasilla = "$fila$columna";
                     echo "<td>\n<select name='casilla$fila$columna' id='numSelect'>\n";
-                    echo "<option ></option>\n";
+                    if(in_array($numCasilla,$numsSudoku)){
+                        $numRandom = rand(1,9);
+                        echo "<option selected> $numRandom</option>\n";
+                    }
+                    else{
+                        echo "<option ></option>\n";
+                    }
                     for($k=1;$k<10;$k++){
                         if($k == $_POST["casilla$fila$columna"]){
                             echo "<option selected >$k</option>\n";
                         }
                         else{
-                            echo "<option >$k</option>\n";
+                            if(!in_array($numCasilla,$numsSudoku)){
+                                echo "<option >$k</option>\n";
+                            }
                         }
                     }
                     echo "</select>";
                     echo "</td>\n";
+                    if($columna % 3 == 0){
+                        echo "<td style='border:0px'></td>";
+                    }
                     }
                     echo "</tr>";
+                    if($fila % 3 == 0){
+                        echo "<tr></tr><tr></tr>";
+                    }
             }
             if($_POST){
                 for($i = 1; $i < 10; $i++){
@@ -36,6 +54,21 @@
                 }
             }
             
+            function numerosSudoku(){
+                $numsSudoku = array();
+                for($i = 0;$i < 31;$i++){
+                    $filaRandom = rand(1,9);
+                    $casillaRandom = rand(1,9);
+                    $casilla = "$filaRandom$casillaRandom";
+                    while(in_array($casilla,$numsSudoku)){
+                        $filaRandom = rand(1,9);
+                        $casillaRandom = rand(1,9);
+                        $casilla = "$filaRandom$casillaRandom";
+                    }
+                    array_push($numsSudoku,$casilla);
+                }
+                return $numsSudoku;
+            }
 
             function comprovarFila($filera){
                 $arrayFilera = [];
